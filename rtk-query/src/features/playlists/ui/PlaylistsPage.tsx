@@ -3,6 +3,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form'
 import { useDeletePlaylistMutation, useFetchPlaylistsQuery, useUpdatePlaylistMutation } from '../api/playlistsApi'
 import type { PlaylistData, UpdatePlaylistArgs } from '../api/playlistsApi.types'
 import { CreatePlaylistForm } from './CreatePlaylistForm/CreatePlaylistForm'
+import { PlaylistItem } from './PlaylistItem/PlaylistItem'
 import s from './PlaylistsPage.module.css'
 
 export const PlaylistsPage = () => {
@@ -65,13 +66,11 @@ export const PlaylistsPage = () => {
                   </button>
                 </form>
               ) : (
-                <div>
-                  <div>title: {playlist.attributes.title}</div>
-                  <div>description: {playlist.attributes.description}</div>
-                  <div>userName: {playlist.attributes.user.name}</div>
-                  <button onClick={() => deletePlaylistHandler(playlist.id)}>delete</button>
-                  <button onClick={() => editPlaylistHandler(playlist)}>update</button>
-                </div>
+                <PlaylistItem
+                  playlist={playlist}
+                  deletePlaylist={deletePlaylistHandler}
+                  editPlaylist={editPlaylistHandler}
+                />
               )}
             </div>
           )
