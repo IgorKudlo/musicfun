@@ -1,9 +1,17 @@
-import { useFetchPlaylistsQuery } from '../api/playlistsApi'
+import { useDeletePlaylistMutation, useFetchPlaylistsQuery } from '../api/playlistsApi'
 import { CreatePlaylistForm } from './CreatePlaylistForm/CreatePlaylistForm'
 import s from './PlaylistsPage.module.css'
 
 export const PlaylistsPage = () => {
   const { data } = useFetchPlaylistsQuery()
+
+  const [deletePlaylist] = useDeletePlaylistMutation()
+
+  const deletePlaylistHandler = (playlistId: string) => {
+    if (confirm('Are you sure you want to delete the playlist?')) {
+      deletePlaylist(playlistId)
+    }
+  }
 
   return (
     <div className={s.container}>
@@ -16,6 +24,7 @@ export const PlaylistsPage = () => {
               <div>title: {playlist.attributes.title}</div>
               <div>description: {playlist.attributes.description}</div>
               <div>userName: {playlist.attributes.user.name}</div>
+              <button onClick={() => deletePlaylistHandler(playlist.id)}>delete</button>
             </div>
           )
         })}
