@@ -3,6 +3,7 @@ import type { CreatePlaylistArgs, PlaylistsResponse, PlaylistData, UpdatePlaylis
 
 export const playlistsApi = createApi({
   reducerPath: 'playlistsApi',
+  tagTypes: ['Playlist'],
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_URL,
     headers: {
@@ -22,6 +23,7 @@ export const playlistsApi = createApi({
           url: 'playlists',
         }
       },
+      providesTags: ['Playlist'],
     }),
 
     createPlaylist: build.mutation<{ data: PlaylistData }, CreatePlaylistArgs>({
@@ -32,6 +34,7 @@ export const playlistsApi = createApi({
           body,
         }
       },
+      invalidatesTags: ['Playlist'],
     }),
 
     deletePlaylist: build.mutation<void, string>({
@@ -41,6 +44,7 @@ export const playlistsApi = createApi({
           url: `playlists/${playlistId}`,
         }
       },
+      invalidatesTags: ['Playlist'],
     }),
 
     updatePlaylist: build.mutation<void, { playlistId: string; body: UpdatePlaylistArgs }>({
@@ -51,6 +55,7 @@ export const playlistsApi = createApi({
           body,
         }
       },
+      invalidatesTags: ['Playlist'],
     }),
   }),
 })
