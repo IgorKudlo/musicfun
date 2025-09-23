@@ -18,7 +18,7 @@ export const PlaylistsPage = () => {
     search: debounceSearch,
     pageNumber: currentPage,
     pageSize,
-  })
+  }/* , { refetchOnFocus: true, refetchOnReconnect: true } */)
 
   const changePageSizeHandler = (size: number) => {
     setPageSize(size)
