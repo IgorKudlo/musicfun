@@ -14,16 +14,18 @@ export const PlaylistsPage = () => {
   const [search, setSearch] = useState('')
   const debounceSearch = useDebounceValue(search)
 
-  const { data, isLoading } = useFetchPlaylistsQuery({
-    search: debounceSearch,
-    pageNumber: currentPage,
-    pageSize,
-  } /* , {
+  const { data, isLoading } = useFetchPlaylistsQuery(
+    {
+      search: debounceSearch,
+      pageNumber: currentPage,
+      pageSize,
+    } /* , {
     pollingInterval: 3000,
     skipPollingIfUnfocused: true,
     refetchOnFocus: true,
     refetchOnReconnect: true,
-  }*/)
+  }*/,
+  )
 
   const changePageSizeHandler = (size: number) => {
     setPageSize(size)
@@ -34,6 +36,8 @@ export const PlaylistsPage = () => {
     setSearch(e.currentTarget.value)
     setCurrentPage(1)
   }
+
+  if (isLoading) return <h1>Skeleton loader...</h1>
 
   return (
     <div className={s.container}>
@@ -48,6 +52,7 @@ export const PlaylistsPage = () => {
         pageSize={pageSize}
         changePageSize={changePageSizeHandler}
       />
+      {/* {isFetching && <LinearProgress />} */}
     </div>
   )
 }
