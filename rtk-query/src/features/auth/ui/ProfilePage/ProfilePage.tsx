@@ -9,8 +9,6 @@ import s from './ProfilePage.module.css'
 export const ProfilePage = () => {
   const { data: meResponse, isLoading: isMeLoading } = useGetMeQuery()
 
-  console.log(meResponse)
-
   const { data: playlistsResponse, isLoading } = useFetchPlaylistsQuery(
     { userId: meResponse?.userId },
     { skip: !meResponse?.userId },

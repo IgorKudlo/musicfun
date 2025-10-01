@@ -7,28 +7,21 @@ import type {
 } from './playlistsApi.types'
 import { baseApi } from '../../../app/api/baseApi'
 import type { Images } from '../../../common/types'
+import { playlistCreateResponseSchema, playlistsResponseSchema } from '../model/playlists.schemas'
+import { imagesSchema } from '../../../common/schemas/schemas'
+import { withZodCatch } from '../../../common/utils/withZodCatch'
 
 export const playlistsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     fetchPlaylists: build.query<PlaylistsResponse, FetchPlaylistsArgs>({
-      query: (params) => {
-        return {
-          method: 'get',
-          url: 'playlists',
-          params,
-        }
-      },
+      query: (params: FetchPlaylistsArgs) => ({ url: `playlists`, params }),
+      ...withZodCatch(playlistsResponseSchema),
       providesTags: ['Playlist'],
     }),
 
     createPlaylist: build.mutation<{ data: PlaylistData }, CreatePlaylistArgs>({
-      query: (body) => {
-        return {
-          method: 'post',
-          url: 'playlists',
-          body,
-        }
-      },
+      query: (body: CreatePlaylistArgs) => ({ url: 'playlists', method: 'post', body }),
+      ...withZodCatch(playlistCreateResponseSchema),
       invalidatesTags: ['Playlist'],
     }),
 
@@ -92,6 +85,7 @@ export const playlistsApi = baseApi.injectEndpoints({
           body: formData,
         }
       },
+      ...withZodCatch(imagesSchema),
       invalidatesTags: ['Playlist'],
     }),
 
